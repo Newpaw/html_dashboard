@@ -59,3 +59,57 @@ The application will now be accessible at `http://localhost:5000` in your web br
 2.  **Upload files**: On the `/upload_files` page, you can select an HTML file and an optional CSV file.
 3.  **Manage files**: The upload page displays a list of currently uploaded files, including their original names, and provides a **"Delete"** button for each.
 4.  **View the dashboard**: Once an `index.html` file is uploaded, your custom web page will be available at the `/o2site` endpoint. This is where your uploaded HTML and any associated data can be viewed.
+
+-----
+
+## Working with Uploaded Files
+
+For your uploaded HTML to work correctly with other files (like `data.csv`, CSS, or JavaScript), you must reference them using a relative path that points to the `/uploaded_files` directory.
+
+### Example: Loading a CSV file in your HTML
+
+Your JavaScript code inside `index.html` can fetch `data.csv` using the standard `fetch` API. Here is a simple example:
+
+```html
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My Dashboard</title>
+</head>
+<body>
+    <h1>Data from the CSV File</h1>
+    <pre id="csv-content"></pre>
+
+    <script>
+        // Use fetch() to load data.csv from the correct URL
+        fetch('/uploaded_files/data.csv')
+            .then(response => {
+                // Check if the response is okay
+                if (!response.ok) {
+                    throw new Error('Failed to load data.csv');
+                }
+                // Read the file content as text
+                return response.text();
+            })
+            .then(data => {
+                // Parse and process the data here, for example, display it
+                document.getElementById('csv-content').textContent = data;
+                console.log('CSV data successfully loaded:', data);
+            })
+            .catch(error => {
+                console.error('An error occurred:', error);
+            });
+    </script>
+</body>
+</html>
+```
+
+### Referencing Other Static Files
+
+If you upload and want to use a custom CSS file (e.g., `styles.css`), you can reference it within your `index.html` like this:
+
+```html
+<link rel="stylesheet" href="/uploaded_files/styles.css">
+```
+
+This approach allows you to easily build complex and custom-styled dashboards using your own HTML and the data you upload.
