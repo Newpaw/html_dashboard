@@ -24,4 +24,4 @@ EXPOSE 5000
 
 # Spustíme aplikaci pomocí Python modulu gunicorn.
 # TOTO JE KLÍČOVÁ ZMĚNA PRO OPRAVU "gunicorn not found".
-CMD ["uv", "run", "python", "-m", "gunicorn", "--bind", "0.0.0.0:5000", "app:app"]
+CMD ["uv", "run", "python", "-m", "gunicorn", "--bind", "0.0.0.0:5000", "--timeout", "300", "app:app"]
